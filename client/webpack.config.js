@@ -38,7 +38,7 @@ module.exports = () => {
               inject: true,
               name: 'jate',
               short_name: 'Contact',
-              description: 'Never forget your contacts!',
+              description: 'text editor PWA',
               background_color: '#225ca3',
               theme_color: '#225ca3',
               start_url: './',
@@ -58,19 +58,19 @@ module.exports = () => {
       rules: [
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, "css-loader"],
+          use: ['style-loader', 'css-loader'],
         },
         {
-          test: /\.(?:js|mjs|cjs)$/,
+          test: /\.m?js$/,
           exclude: /node_modules/,
+          // We use babel-loader in order to use ES6.
           use: {
             loader: 'babel-loader',
             options: {
-              presets: [
-                ['@babel/preset-env', { targets: "defaults" }]
-              ]
-            }
-          }
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
+            },
+          },
         },
       ],
     },
