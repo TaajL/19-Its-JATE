@@ -20,32 +20,38 @@ module.exports = () => {
       publicPath: '/',
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        template: './index.html',
-        title: 'J.A.T.E'
-      }),
-      new MiniCssExtractPlugin(),
-      new InjectManifest({
-        swSrc: './src/sw.js',
-        swDest: 'src/sw.js',
-
-      }),
-      new WebpackPwaManifest({
-        start_url: '/',
-        name: 'jate',
-        short_name: 'jate',
-        description: 'a text editor PWA',
-        theme_color: '#225ca3',
-        background_color: '#ffffff',
-        orientation: 'portrait',
-        display: 'standalone',
-        icons: [
-          {
-            src: path.resolve('./src/images/logo.png'),
-            sizes: [96, 128, 192, 256, 384, 512]
-          },
-        ]
-      })
+            // Webpack plugin that generates our html file and injects our bundles. 
+            new HtmlWebpackPlugin({
+              template: './index.html',
+              title: 'jate'
+            }),
+           
+            // Injects our custom service worker
+            new InjectManifest({
+              swSrc: './src-sw.js',
+              swDest: 'src-sw.js',
+            }),
+      
+            // Creates a manifest.json file.
+            new WebpackPwaManifest({
+              fingerprints: false,
+              inject: true,
+              name: 'jate',
+              short_name: 'Contact',
+              description: 'Never forget your contacts!',
+              background_color: '#225ca3',
+              theme_color: '#225ca3',
+              start_url: './',
+              publicPath: './',
+              icons: [
+                {
+                  src: path.resolve('src/images/logo.png'),
+                  sizes: [96, 128, 192, 256, 384, 512],
+                  destination: path.join('assets', 'icons'),
+                },
+              ],
+            }),
+      
     ],
 
     module: {
